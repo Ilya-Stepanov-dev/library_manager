@@ -85,7 +85,7 @@ class Library:
         finally:
             return new_book
 
-    def get_all_book(self) -> list[Book] | None:
+    def get_all_books(self) -> list[Book] | None:
         """
         Retrieves all books in the library.
 
@@ -211,20 +211,3 @@ class Library:
         book.status = new_status
         self._save_books()
         return book
-
-    def display_books(self) -> str | None:
-        """
-        Displays all books in the library.
-
-        Returns:
-            str | None: A string of all books in the library. 
-                        If no books are found, raises BookNotFound.
-
-        Raises:
-            BookNotFound: If the books is not found.
-        """
-
-        if not self.books:
-            raise BookNotFound('Book with this id not found.')
-        for book in self.books:
-            return str(book)
