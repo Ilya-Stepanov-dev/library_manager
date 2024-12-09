@@ -1,5 +1,5 @@
 # Library Manager
-![Image](_resources/library_mamager.jpg)
+![Image](_resources/library_manager.jpg)
 
 
 ## Содержание:
