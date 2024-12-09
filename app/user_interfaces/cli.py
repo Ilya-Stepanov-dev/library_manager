@@ -1,20 +1,34 @@
 import os
 
+from abc import abstractmethod
 from ..library.book import Book
 from ..library.library import Library
 from ..utils.enums import BookStatus
-from .base import Interface as State
+from .base import Interface
 from ..utils.color_print import cprint
 from ..utils.validator import validator
 from ..utils.enums import MenuDesignations
 
-class Menu(State):
+class Menu(Interface):
     """Base class Menu"""
+
+    @abstractmethod
+    def on_enter(self) -> None:
+        """The display is called when entering the interface."""
+
+        pass
+
+    @abstractmethod
+    def handle_input(self, input) -> None:
+        """Handles the user's input."""
+
+        pass
     
     def _clear_console(self) -> None:
         """Clears the console screen. Supports Windows and Unix/Linux/MacOS."""
         
         os.system('cls' if os.name == 'nt' else 'clear')
+
 
     def _on_exit(self) -> None:
         """Exits the program when the user chooses to exit the menu."""
@@ -22,6 +36,7 @@ class Menu(State):
         self._clear_console()
         cprint.violet('Goodbye!')
         os._exit(0)
+
 
     def run(self) -> None:
         """Runs the CLI infinite loop."""
@@ -34,6 +49,7 @@ class Menu(State):
         except KeyboardInterrupt:
             self._clear_console()
             cprint.violet('Goodbye!')
+
 
 class ValidatorInputData:
     """Class to validate input data from user."""
@@ -69,7 +85,7 @@ class MainMenu(Menu):
         cprint.yellow('Select an action: ', end='')
 
 
-    def handle_input(self, user_input) -> State:
+    def handle_input(self, user_input) -> Menu:
         self._clear_console()
         match user_input:
             case '1':
@@ -114,7 +130,7 @@ class AddMenu(Menu, ValidatorInputData):
         cprint.yellow('Select the field you want to change: ', end='')
     
 
-    def handle_input(self, user_input) -> State:
+    def handle_input(self, user_input) -> Menu:
         self._clear_console()
         match user_input:
             case '1':
@@ -163,7 +179,7 @@ class SuccessfulCompletion(Menu):
     def __init__(self, 
                  message: str='Success completion', 
                  books: list[Book]=None, 
-                 last_state: State=None, 
+                 last_state: Menu=None, 
                  additional_info: str=None) -> None:
         super().__init__()
         self.message = message
@@ -182,7 +198,7 @@ class SuccessfulCompletion(Menu):
             print('\n')
         cprint.yellow('Press any key to exit to the last menu: ', end='')
 
-    def handle_input(self, user_input) -> State:
+    def handle_input(self, user_input) -> Menu:
         self._clear_console()
         return self.last_state
     
@@ -201,7 +217,7 @@ class DeleteMenu(Menu, ValidatorInputData):
         cprint.red(f'{MenuDesignations.DELETE.value}. Delete book\t\t\t{MenuDesignations.BACK.value}. Back\n')
         cprint.yellow('Select the field you want to change: ', end='')
     
-    def handle_input(self, user_input) -> State:
+    def handle_input(self, user_input) -> Menu:
         self._clear_console()
         match user_input:
             case '1':
@@ -249,7 +265,7 @@ class SearchMenu(Menu):
         cprint.yellow('Search filed: ', end='')
         
 
-    def handle_input(self, user_input) -> State:
+    def handle_input(self, user_input) -> Menu:
         self._clear_console()
         match user_input:
             case MenuDesignations.BACK.value:
@@ -267,7 +283,7 @@ class SearchMenu(Menu):
             
 class ShowBook(Menu):
 
-    def __init__(self, books: list[Book]=[], last_state: State=MainMenu()) -> None:
+    def __init__(self, books: list[Book]=[], last_state: Menu=MainMenu()) -> None:
         super().__init__()
         self.books = books
         self.last_state = last_state
@@ -280,7 +296,7 @@ class ShowBook(Menu):
         cprint.yellow(' --- \n')
         cprint.yellow('Press any key to exit to the last menu: ', end='')
 
-    def handle_input(self, input) -> State:
+    def handle_input(self, input) -> Menu:
         self._clear_console()
         return self.last_state
 
@@ -321,7 +337,7 @@ class ChangeStatusMenu(Menu, ValidatorInputData):
             self._clear_console()
             
 
-    def handle_input(self, user_input) -> State:
+    def handle_input(self, user_input) -> Menu:
         self._clear_console()
         match user_input:
             case '1':
