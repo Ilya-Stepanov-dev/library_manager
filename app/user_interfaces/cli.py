@@ -96,9 +96,7 @@ class MainMenu(Menu):
                 return SearchMenu()
             case '4':
                 try:
-                    show_book = ShowBook()
-                    show_book.books = Library().get_all_book()
-                    show_book.last_state = self
+                    show_book = ShowBook(books = Library().get_all_books(), last_state=self)
                 except Exception as e:
                     cprint.red(e)
                     return MainMenu()
