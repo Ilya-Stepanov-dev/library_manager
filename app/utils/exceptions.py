@@ -1,5 +1,5 @@
 
-__all__ = ['BaseException', 
+__all__ = ['BaseExceptionApp', 
            'InvalidIDError', 
            'InvalidTextError',
            'InvalidTitleError',
@@ -12,7 +12,7 @@ __all__ = ['BaseException',
 ]
 
 
-class BaseException(Exception):    
+class BaseExceptionApp(Exception):    
     def __init__(self, message: str, *args: object) -> None:
         super().__init__()
         self.message = message
@@ -26,37 +26,37 @@ class BaseException(Exception):
         return f'{self.__class__.__name__}: {self.message}\n{args_str}\n'
 
 
-class InvalidIDError(BaseException):
+class InvalidIDError(BaseExceptionApp):
     pass
 
 
-class InvalidTextError(BaseException):
+class InvalidTextError(BaseExceptionApp):
     pass
 
 
-class InvalidAuthorError(BaseException):
+class InvalidAuthorError(BaseExceptionApp):
     pass
 
 
-class InvalidTitleError(BaseException):
+class InvalidTitleError(BaseExceptionApp):
     pass
 
 
-class InvalidYearError(BaseException):
+class InvalidYearError(BaseExceptionApp):
     pass
 
 
-class InvalidStatusError(BaseException):
+class InvalidStatusError(BaseExceptionApp):
     pass
 
     
-class BookNotFound(BaseException):
+class BookNotFound(BaseExceptionApp):
     pass
 
 
-class StatusNotFound(BaseException):
+class StatusNotFound(BaseExceptionApp):
     pass
 
 
-class BookAlreadyExistsError(BaseException):
+class BookAlreadyExistsError(BaseExceptionApp):
     pass
