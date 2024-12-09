@@ -1,7 +1,9 @@
 from ..utils.enums import BookStatus
 from ..utils.validator import validator
+from dataclasses import asdict, dataclass
 
-class Book:
+@dataclass
+class Book():
     def __init__(self, 
                  id: int, 
                  title: str, 
@@ -14,7 +16,12 @@ class Book:
         self._author = author
         self._year = year
         self._status = status
-
+    
+    id: int
+    title: str
+    author: str
+    year: int
+    status: BookStatus
 
     def __str__(self) -> str:
         return f'book_id: {self.id}\ntitle: {self.title}\nauthor: {self.author}\nyear: {self.year}\nstatus: {self.status}'
@@ -74,12 +81,44 @@ class Book:
         return f'book_id: {self.id}\ntitle: {self.title}\nauthor: {self.author}\nyear: {self.year}\nstatus: {self.status}'
 
 
+    # def to_dict(self) -> dict:
+    #     return asdict(self)
+    
     def to_dict(self) -> dict:
         return {
-            "id": self.id,
-            "title": self.title,
-            "author": self.author,
-            "year": self.year,
-            "status": self.status
+            'id': self.id,
+            'title': self.title,
+            'author': self.author,
+            'year': self.year,
+            'status': self.status
         }
 
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Book):
+            return all((self.title.lower() == other.title.lower(),
+                       self.author.lower() == other.author.lower(),
+                       self.year == other.year,)
+                    )
+        return False
+
+books = []
+book1 = Book(1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925)
+book2 = Book(2, 'The Gratsby', 'F. Sc Fitzgerald', 1925)
+book3 = Book(3, 'The Great Gaty', 'F. Scott Fitzald', 1912)
+
+book4 = Book(4, 'The Gratsby', 'F. Sc Fitzgerald', 1925)
+
+books.append(book1)
+books.append(book2)
+books.append(book3)
+
+# print(tuple(book for book in books))
+# print(book == book4 for book in books)
+
+print(book4 in (book for book in books))
+# if any((book == book4 for book in books)):
+#     print('True')
+    
+# book = Book(1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925)
+# print(book.to_dict())
+    

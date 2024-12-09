@@ -68,11 +68,13 @@ class Library:
         try:
             book_id = self.books[len(self.books) - 1].id + 1
             new_book = Book(book_id, title, author, year)
-            if any(book.title == new_book.title
-                   and book.author == new_book.author 
-                   and book.year == new_book.year 
-                   for book in self.books):      
-                    raise BookAlreadyExistsError('A book with these parameters already exists.')
+            # print(tuple(book for book in self.books))
+            if new_book in tuple(book for book in self.books):
+            # if any(book.title == new_book.title
+            #        and book.author == new_book.author 
+            #        and book.year == new_book.year 
+            #        for book in self.books):      
+                raise BookAlreadyExistsError('A book with these parameters already exists.')
         except IndexError:
             new_book = Book(1, title, author, year)
             self.books.append(new_book)
