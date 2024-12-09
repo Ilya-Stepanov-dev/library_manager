@@ -56,7 +56,7 @@ ___
 ## Установка и запуск
 ### 1. Клонируйте репозиторий
    ```bash
-   git clone https://github.com/Ilya-Stepanov-dev/library_menager.git
+   git clone https://github.com/Ilya-Stepanov-dev/library_manager.git
    ```
 
 ### 2. Запуск
