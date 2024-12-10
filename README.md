@@ -64,7 +64,7 @@ ___
 1. Linux/Mac
    1. Сделать файл run.sh исполняемым
    ```bash
-   chmod +x run_python.sh
+   chmod +x run.sh
    ```
    2. Запуск
    ```bash
