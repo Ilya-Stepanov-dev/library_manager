@@ -204,41 +204,33 @@ class DeleteMenu(Menu, ValidatorInputData):
 
     def __init__(self, 
                  book_title: str | None = None, 
-                 book_id: int | None = None) -> None:
+                 book_id: int | None = None,
+                 book: Book | None = None) -> None:
         super().__init__()
         self.book_id = book_id
-        self.book_title = book_title
+        self.book = book
 
 
     def on_enter(self) -> None:
         cprint.blue('Delete book menu:\n')
-        cprint.green(f'1. Title book - {self.book_title}')
-        cprint.green(f'2. Book ID - {self.book_id}\n')
-        cprint.red(f'{MenuDesignations.DELETE.value}. Delete book\t\t\t{MenuDesignations.BACK.value}. Back\n')
-        cprint.yellow('Select the field you want to change: ', end='')
+        cprint.green('Enter ID Book\n')
+        if self.book:
+            cprint.yellow(' --- ')
+            cprint.violet(self.book)
+            cprint.yellow(' --- \n')
+
+        cprint.red(f'{MenuDesignations.DELETE.value}. Delete book\t\t\t {MenuDesignations.BACK.value}. Back\n')
+        cprint.yellow('Search filed ID: ', end='')
+    
+    def validate_input_id(self, data: str) -> int:
+        return validator.validate_id(data)
     
     def handle_input(self, user_input) -> Menu:
         self._clear_console()
         match user_input:
-            case '1':
-                try:
-                    book = Library().find_book_title(title=self._input_title())
-                    self.book_title = book[0].title               
-                    self.book_id = book[0].id
-                except Exception as e:
-                    cprint.red(e)         
-                finally:
-                    return self
-            case '2':
-                try:
-                    self.book_id = self._input_id()
-                    book = Library().find_book_id(book_id=self.book_id)        
-                    self.book_title = book.title
-                except Exception as e:
-                    self.book_id = None
-                    cprint.red(e)
-                finally:
-                    return self
+            case MenuDesignations.BACK.value:
+                return MainMenu()
+
             case MenuDesignations.DELETE.value:
                 try:
                     delete_book = Library().remove_book(self.book_id)
@@ -249,11 +241,15 @@ class DeleteMenu(Menu, ValidatorInputData):
                     return SuccessfulCompletion(books=[delete_book], 
                                                 additional_info='The book has been deleted successfully',
                                                 last_state=DeleteMenu())
-            case MenuDesignations.BACK.value:
-                return MainMenu()
             case _:
-                cprint.red('Incorrect selection. Please try again.\n')
-                return self
+                try:
+                    self.book = Library().find_book_id(book_id=self.validate_input_id(user_input))
+                    self.book_id = self.book.id
+                except Exception as e:
+                    cprint.red(e)
+                finally:
+                    return self
+        
 
 class SearchMenu(Menu):
 
@@ -272,8 +268,6 @@ class SearchMenu(Menu):
             case _:
                 try:
                     show_book = ShowBook(books=Library().find_books(user_input), last_state=self)
-                    # show_book.books = Library().find_books(user_input)
-                    # show_book.last_state = self
                 except Exception as e:
                     cprint.red(e)
                     return self
@@ -284,10 +278,12 @@ class ShowBook(Menu):
 
     def __init__(self, 
                  books: list[Book]=[], 
-                 last_state: Menu=MainMenu()) -> None:
+                 last_state: Menu=MainMenu(),
+                 messages: str = 'Press any key to exit to the last menu: ') -> None:
         super().__init__()
         self.books = books
         self.last_state = last_state
+        self.message = messages
 
     def on_enter(self) -> None:
         cprint.blue('Show books:')
@@ -295,7 +291,7 @@ class ShowBook(Menu):
             cprint.yellow(' --- ')
             cprint.violet(book)
         cprint.yellow(' --- \n')
-        cprint.yellow('Press any key to exit to the last menu: ', end='')
+        cprint.yellow(self.message, end='')
 
     def handle_input(self, input) -> Menu:
         self._clear_console()
