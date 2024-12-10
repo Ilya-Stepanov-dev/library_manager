@@ -68,7 +68,7 @@ class Library:
         try:
             book_id = self.books[len(self.books) - 1].id + 1
             new_book = Book(book_id, title, author, year)
-            if new_book in set(book for book in self.books):      
+            if new_book in tuple(book for book in self.books):      
                 raise BookAlreadyExistsError('A book with these parameters already exists.')
         except IndexError:
             new_book = Book(1, title, author, year)
