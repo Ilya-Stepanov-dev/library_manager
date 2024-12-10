@@ -130,8 +130,10 @@ class Validator:
 
         self._validate_str(arg=author, validable_arg='Author', min_length=3, max_length=30, exceptions=InvalidAuthorError)
 
-        if not all(char.isalpha() or char.isspace() for char in author):
-            list_error = [char for char in author if not (char.isalpha() or char.isspace())]
+
+        allowed_characters = {' ','.', "'",'-', '&', '/'}
+        if not all(char.isalpha() or char in allowed_characters for char in author):
+            list_error = [char for char in author if not (char.isalpha() or char in allowed_characters)]
             raise InvalidAuthorError(f'The Author must contain only letters.', self._user_enter(author), f'List error: {list_error}')
         
         return author
