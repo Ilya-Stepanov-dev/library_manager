@@ -158,7 +158,7 @@ class Library:
         if title is None:
             raise BookNotFound('Title is None')
 
-        books = [book for book in self.books if title == book.title]
+        books = [book for book in self.books if title.lower() == book.title.lower()]
         if books == [] or books is None:
             raise BookNotFound('Book with this id not found.')
 
