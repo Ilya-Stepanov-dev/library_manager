@@ -68,12 +68,7 @@ class Library:
         try:
             book_id = self.books[len(self.books) - 1].id + 1
             new_book = Book(book_id, title, author, year)
-            # print(tuple(book for book in self.books))
-            if new_book in tuple(book for book in self.books):
-            # if any(book.title == new_book.title
-            #        and book.author == new_book.author 
-            #        and book.year == new_book.year 
-            #        for book in self.books):      
+            if new_book in set(book for book in self.books):      
                 raise BookAlreadyExistsError('A book with these parameters already exists.')
         except IndexError:
             new_book = Book(1, title, author, year)
@@ -138,7 +133,7 @@ class Library:
             raise BookNotFound('Search term is empty')
         
         books = [book for book in self.books if
-                 search_term in (book.title,book.author,str(book.year))]
+                 search_term.lower() in (book.title.lower(),book.author.lower(),str(book.year))]
         
         if not books:
             raise BookNotFound('Book with this id not found.')
