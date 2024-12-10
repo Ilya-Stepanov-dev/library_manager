@@ -1,6 +1,8 @@
-from ..utils.enums import BookStatus
-from ..utils.validator import validator
 from dataclasses import asdict, dataclass
+
+from utils.enums import BookStatus
+from utils.validator import validator
+
 
 @dataclass
 class Book():
@@ -86,7 +88,7 @@ class Book():
     def to_dict(self) -> dict:
         return asdict(self)
     
-    
+
     def __eq__(self, other) -> bool:
         if isinstance(other, Book):
             return all((self.title.lower() == other.title.lower(),

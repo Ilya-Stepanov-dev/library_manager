@@ -9,4 +9,3 @@ class MenuDesignations(str, Enum):
     BACK = 'b'
     SAVE = 's'
     DELETE = 'd'
-

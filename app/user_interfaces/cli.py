@@ -1,13 +1,10 @@
 import os
-
 from abc import abstractmethod
-from ..library.book import Book
-from ..library.library import Library
-from ..utils.enums import BookStatus
+
+from library import Book, Library
+from utils import BookStatus, MenuDesignations, cprint, validator
+
 from .base import Interface
-from ..utils.color_print import cprint
-from ..utils.validator import validator
-from ..utils.enums import MenuDesignations
 
 class Menu(Interface):
     """Base class Menu"""

@@ -1,5 +1,4 @@
-from .user_interfaces.base import run_interface
-from .user_interfaces.cli import MainMenu
+from user_interfaces import MainMenu, run_interface
 
 def main():
     run_interface(interface=MainMenu())

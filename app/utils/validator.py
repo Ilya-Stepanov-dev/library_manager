@@ -1,6 +1,6 @@
-from .enums import BookStatus
 from datetime import datetime
-from .exceptions import *
+from utils.enums import BookStatus
+from utils.exceptions import *
 
 class Validator:
 
