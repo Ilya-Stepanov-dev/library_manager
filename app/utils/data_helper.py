@@ -17,13 +17,14 @@ class DataHelper:
         try:
             self._create_directory(directory)
         except FileExistsError:
-            try:
+            if not os.path.exists(path_data):
                 self._create_file_json(path_data)
-            except FileExistsError:
-                return
 
 
-    def save_data_json(self, path: str, data: dict) -> None:
+    def save_data_json(self, path: str, data: dict | list[dict]) -> None:
+        # if isinstance(data, list):
+        #     with open(path, 'w', encoding='utf-8') as file:
+        #         json.dump(data, file, ensure_ascii=False, indent=4)
         with open(path, 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
@@ -36,5 +37,3 @@ class DataHelper:
             return []
 
 data_helper = DataHelper()
-
-# print(data_helper.create_data_storage_json('app/data/books.json'))
