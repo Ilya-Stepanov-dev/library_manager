@@ -134,7 +134,7 @@ class Validator:
         allowed_characters = {' ','.', "'",'-', '&', '/'}
         if not all(char.isalpha() or char in allowed_characters for char in author):
             list_error = [char for char in author if not (char.isalpha() or char in allowed_characters)]
-            raise InvalidAuthorError(f'The Author must contain only letters.', self._user_enter(author), f'List error: {list_error}')
+            raise InvalidAuthorError(f'The Author must contain only letters.', self._user_enter(author), f'Invalid characters: {list_error}')
         
         return author
 
