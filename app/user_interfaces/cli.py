@@ -220,12 +220,10 @@ class DeleteMenu(Menu, ValidatorInputData):
         match user_input:
             case '1':
                 try:
-                    # self.book_title = self._input_title()
                     book = Library().find_book_title(title=self._input_title())
                     self.book_title = book[0].title               
                     self.book_id = book[0].id
                 except Exception as e:
-                    # self.book_title = None
                     cprint.red(e)         
                 finally:
                     return self
