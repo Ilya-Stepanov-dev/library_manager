@@ -9,11 +9,11 @@ class Book:
                  year:int,
                  status: BookStatus = BookStatus.AVAILABLE.value
         ) -> None:
-        self._id = id
-        self._title = title
-        self._author = author
-        self._year = year
-        self._status = status
+        self.id = id
+        self.title = title
+        self.author = author
+        self.year = year
+        self.status = status
 
 
     def __str__(self) -> str:
@@ -82,4 +82,3 @@ class Book:
             "year": self.year,
             "status": self.status
         }
-
