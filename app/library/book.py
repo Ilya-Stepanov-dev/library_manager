@@ -2,7 +2,7 @@ from ..utils.enums import BookStatus
 from ..utils.validator import validator
 from dataclasses import asdict, dataclass
 
-# @dataclass
+@dataclass
 class Book():
     def __init__(self, 
                  id: int, 
@@ -17,6 +17,12 @@ class Book():
         self.author = author
         self.year = year
         self.status = status
+
+    id: int
+    title: str
+    author: str
+    year: int
+    status: BookStatus
 
 
     def __str__(self) -> str:
@@ -77,19 +83,10 @@ class Book():
         return f'book_id: {self.id}\ntitle: {self.title}\nauthor: {self.author}\nyear: {self.year}\nstatus: {self.status}'
 
 
-    # def to_dict(self) -> dict:
-    #     return asdict(self)
-    
     def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'title': self.title,
-            'author': self.author,
-            'year': self.year,
-            'status': self.status
-        }
+        return asdict(self)
     
-
+    
     def __eq__(self, other) -> bool:
         if isinstance(other, Book):
             return all((self.title.lower() == other.title.lower(),
@@ -97,4 +94,3 @@ class Book():
                        self.year == other.year,)
                     )
         return False
-
