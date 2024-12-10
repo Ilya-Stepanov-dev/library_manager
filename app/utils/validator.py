@@ -7,7 +7,7 @@ class Validator:
     def _user_enter(self, arg: object) -> str:
         return f'You enter: {arg}'
 
-    def _validation_int(self, arg: object, exceptions: Exception, name_arg: str) -> int | None:
+    def _validate_int(self, arg: object, exceptions: Exception, name_arg: str) -> int | None:
         """
         Validates the argument as a positive integer.
         
@@ -44,7 +44,7 @@ class Validator:
             InvalidYearError: If the year is less than 1455 or greater than the current year.
         """
         
-        year = self._validation_int(arg=year, exceptions=InvalidYearError, name_arg="Year")
+        year = self._validate_int(arg=year, exceptions=InvalidYearError, name_arg="Year")
 
         if year < 1455:   
             raise InvalidYearError('Year must not be less than 1455.', self._user_enter(year), 
@@ -57,7 +57,7 @@ class Validator:
         return year
 
     def validate_id(self, id) -> int | None:      
-        return self._validation_int(arg=id, exceptions=InvalidIDError, name_arg='ID')
+        return self._validate_int(arg=id, exceptions=InvalidIDError, name_arg='ID')
     
     def _validate_rep_characters(self, arg: str, light: int, exceptions: Exception, message: str) -> None:
         """
