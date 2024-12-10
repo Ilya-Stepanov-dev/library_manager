@@ -90,9 +90,7 @@ class Book():
     
 
     def __eq__(self, other) -> bool:
-        if isinstance(other, Book):
-            return all((self.title.lower() == other.title.lower(),
-                       self.author.lower() == other.author.lower(),
-                       self.year == other.year,)
-                    )
-        return False
+        return all((isinstance(other, Book),
+                self.title.lower() == other.title.lower(),
+                self.author.lower() == other.author.lower(),
+                self.year == other.year,))
