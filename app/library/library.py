@@ -4,14 +4,14 @@ from utils import BookAlreadyExistsError, BookNotFound
 
 
 class Library:
-    def __init__(self, path_data: str = 'app/data/', file_name='books.json') -> None:
+    def __init__(self, path_data: str = 'app/data/', file_name: str ='books.json') -> None:
         self.path_data = path_data
         self.file_name = file_name
         self.books = self._load_books()
 
 
     @property
-    def data_file(self) -> str:
+    def path_data_file(self) -> str:
         """Property that returns the path to the data file."""
 
         return f'{self.path_data}{self.file_name}'
@@ -34,8 +34,8 @@ class Library:
 
         If the file does not exist or is not in the correct format, an empty list is returned.
         """
-        dh.create_data_storage_json(self.data_file)
-        list_books = dh.load_data_json(self.data_file)
+        dh.create_data_storage_json(path_data=self.path_data_file)
+        list_books = dh.load_data_json(path=self.path_data_file)
         if not list_books:
             return []
         return [Book(**book) for book in list_books]
@@ -44,7 +44,7 @@ class Library:
     def _save_books(self) -> None:
         """Saves the list of books to a json file"""
 
-        dh.save_data_json(data=[book.to_dict() for book in self.books], path=self.data_file)
+        dh.save_data_json(data=[book.to_dict() for book in self.books], path=self.path_data_file)
 
 
     def add_book(self, title, author, year) -> Book | None:
@@ -65,11 +65,11 @@ class Library:
 
         try:
             book_id = self.books[len(self.books) - 1].id + 1
-            new_book = Book(book_id, title, author, year)
+            new_book = Book(id=book_id, title=title, author=author, year=year)
             if new_book in tuple(book for book in self.books):      
                 raise BookAlreadyExistsError('A book with these parameters already exists.')
         except IndexError:
-            new_book = Book(1, title, author, year)
+            new_book = Book(id=1, title=title, author=author, year=year)
             self.books.append(new_book)
             self._save_books()
             return new_book
@@ -108,7 +108,7 @@ class Library:
 
         if book_id == None:
             raise BookNotFound('Book with this id not found.')
-        delete_book = self.find_book_id(book_id)
+        delete_book = self.find_book_id(book_id=book_id)
         self.books = [book for book in self.books if book.id != book_id]
         if self.books == []:
             raise BookNotFound('Book with this id not found.')
@@ -204,7 +204,7 @@ class Library:
             BookNotFound: If the book is not found.
         """
 
-        book = self.find_book_id(book_id)
+        book = self.find_book_id(book_id=book_id)
         book.status = new_status
         self._save_books()
         return book
