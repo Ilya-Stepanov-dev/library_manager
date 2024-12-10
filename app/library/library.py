@@ -40,19 +40,11 @@ class Library:
             return []
         return [Book(**book) for book in list_books]
 
-        # dh.check_data_storage(path_data=self.path_data, file_name=self.file_name)
-        # try:
-        #     with open(self.data_file, 'r', encoding='utf-8') as fife:
-        #         return [Book(**book) for book in json.load(fife)]
-        # except json.JSONDecodeError:
-        #     return []
 
     def _save_books(self) -> None:
         """Saves the list of books to a json file"""
-        dh.save_data_json(data=[book.to_dict() for book in self.books], path=self.data_file)
 
-        # with open(self.data_file, 'w', encoding='utf-8') as file:
-        #     json.dump([book.to_dict() for book in self.books], file, ensure_ascii=False, indent=4)
+        dh.save_data_json(data=[book.to_dict() for book in self.books], path=self.data_file)
 
 
     def add_book(self, title, author, year) -> Book | None:
@@ -216,6 +208,4 @@ class Library:
         book.status = new_status
         self._save_books()
         return book
-
-# library = Library()
-# library.add_book(title='Book1', author='Author', year=2000)
+    
