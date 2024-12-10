@@ -22,9 +22,6 @@ class DataHelper:
 
 
     def save_data_json(self, path: str, data: dict | list[dict]) -> None:
-        # if isinstance(data, list):
-        #     with open(path, 'w', encoding='utf-8') as file:
-        #         json.dump(data, file, ensure_ascii=False, indent=4)
         with open(path, 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
