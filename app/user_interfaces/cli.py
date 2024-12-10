@@ -270,9 +270,9 @@ class SearchMenu(Menu):
                 return MainMenu()
             case _:
                 try:
-                    show_book = ShowBook()
-                    show_book.books = Library().find_books(user_input)
-                    show_book.last_state = self
+                    show_book = ShowBook(books=Library().find_books(user_input), last_state=self)
+                    # show_book.books = Library().find_books(user_input)
+                    # show_book.last_state = self
                 except Exception as e:
                     cprint.red(e)
                     return self
