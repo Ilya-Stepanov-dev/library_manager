@@ -77,12 +77,12 @@ class Library:
             new_book = Book(1, title, author, year)
             self.books.append(new_book)
             self._save_books()
+            return new_book
         except Exception as e:
             raise e
         else:
             self.books.append(new_book)
             self._save_books()
-        finally:
             return new_book
 
     def get_all_books(self) -> list[Book] | None:
