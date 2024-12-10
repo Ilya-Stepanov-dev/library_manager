@@ -55,7 +55,7 @@ class ValidatorInputData:
         cprint.yellow(f'Enter {name_filed}: ', end='')
         data = input()
         self._clear_console()
-        return data
+        return data.strip()
 
     def _input_title(self) -> str | None:
         return validator.validate_title(title=self._input_data('Title book'))
