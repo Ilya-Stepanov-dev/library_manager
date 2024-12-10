@@ -1,25 +1,40 @@
 import os
 import json
 
-class DataHelper:
-    
-    def check_directory(self, path: str) -> bool:
-        return bool(os.path.exists(os.path.dirname(path)))
-    
-    def check_file(self, path: str) -> bool:
-        return bool(os.path.exists(path))
-    
-    def create_directory(self, path: str) -> None:
+class DataHelper:    
+    def _create_directory(self, path: str) -> None:
         os.makedirs(path)
 
-    def create_file_json(self, path: str) -> None:
+    def _create_file_json(self, path: str) -> None:
         with open(path, 'w', encoding='utf-8') as file:
             json.dump([], file)
-            # pass
-    def check_data_storage(self, path_data: str, file_name: str) -> None:
-        if not self.check_directory(path_data):
-            self.create_directory(path_data)
-        if not self.check_file(f'{path_data}{file_name}'):
-            self.create_file_json(f'{path_data}{file_name}')
+        
+    def check_data_storage(self, path_data: str) -> bool:
+        return all((os.path.exists(os.path.dirname(path_data)), os.path.exists(path_data)))
+
+    def create_data_storage_json(self, path_data: str) -> None:
+        directory = os.path.dirname(path_data)
+        try:
+            self._create_directory(directory)
+        except FileExistsError:
+            try:
+                self._create_file_json(path_data)
+            except FileExistsError:
+                return
+
+
+    def save_data_json(self, path: str, data: dict) -> None:
+        with open(path, 'w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+
+
+    def load_data_json(self, path: str) -> list:
+        try: 
+            with open(path, 'r', encoding='utf-8') as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            return []
 
 data_helper = DataHelper()
+
+# print(data_helper.create_data_storage_json('app/data/books.json'))
