@@ -178,6 +178,8 @@ class Library:
         Raises:
             BookNotFound: If the book is not found.
         """
+        if book_id is None:
+            raise BookNotFound('Book id is None')
 
         if self.books[len(self.books) - 1].id < book_id:
             raise BookNotFound('Invalid book id.')
