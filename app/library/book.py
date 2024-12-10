@@ -11,17 +11,13 @@ class Book():
                  year:int,
                  status: BookStatus = BookStatus.AVAILABLE.value
         ) -> None:
-        self._id = id
-        self._title = title
-        self._author = author
-        self._year = year
-        self._status = status
-    
-    id: int
-    title: str
-    author: str
-    year: int
-    status: BookStatus
+
+        self.id = id
+        self.title = title
+        self.author = author
+        self.year = year
+        self.status = status
+
 
     def __str__(self) -> str:
         return f'book_id: {self.id}\ntitle: {self.title}\nauthor: {self.author}\nyear: {self.year}\nstatus: {self.status}'
@@ -92,6 +88,7 @@ class Book():
             'year': self.year,
             'status': self.status
         }
+    
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Book):
@@ -121,4 +118,3 @@ print(book4 in (book for book in books))
     
 # book = Book(1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925)
 # print(book.to_dict())
-    
