@@ -1,4 +1,3 @@
-import json
 from .book import Book
 from ..utils.data_helper import data_helper as dh
 from ..utils.exceptions import *
@@ -9,6 +8,7 @@ class Library:
         self.path_data = path_data
         self.file_name = file_name
         self.books = self._load_books()
+
 
     @property
     def data_file(self) -> str:
@@ -34,19 +34,25 @@ class Library:
 
         If the file does not exist or is not in the correct format, an empty list is returned.
         """
-
-        dh.check_data_storage(path_data=self.path_data, file_name=self.file_name)
-        try:
-            with open(self.data_file, 'r', encoding='utf-8') as fife:
-                return [Book(**book) for book in json.load(fife)]
-        except json.JSONDecodeError:
+        dh.create_data_storage_json(self.data_file)
+        list_books = dh.load_data_json(self.data_file)
+        if not list_books:
             return []
+        return [Book(**book) for book in list_books]
+
+        # dh.check_data_storage(path_data=self.path_data, file_name=self.file_name)
+        # try:
+        #     with open(self.data_file, 'r', encoding='utf-8') as fife:
+        #         return [Book(**book) for book in json.load(fife)]
+        # except json.JSONDecodeError:
+        #     return []
 
     def _save_books(self) -> None:
         """Saves the list of books to a json file"""
+        dh.save_data_json(data=[book.to_dict() for book in self.books], path=self.data_file)
 
-        with open(self.data_file, 'w', encoding='utf-8') as file:
-            json.dump([book.to_dict() for book in self.books], file, ensure_ascii=False, indent=4)
+        # with open(self.data_file, 'w', encoding='utf-8') as file:
+        #     json.dump([book.to_dict() for book in self.books], file, ensure_ascii=False, indent=4)
 
 
     def add_book(self, title, author, year) -> Book | None:
@@ -210,3 +216,6 @@ class Library:
         book.status = new_status
         self._save_books()
         return book
+
+# library = Library()
+# library.add_book(title='Book1', author='Author', year=2000)
