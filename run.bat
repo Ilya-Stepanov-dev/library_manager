@@ -7,4 +7,4 @@ if %errorlevel%==0 (
     set PYTHON=python
 )
 
-%PYTHON% -m app.main
+%PYTHON% app/main.py

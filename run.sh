@@ -6,4 +6,4 @@ else
     PYTHON=python
 fi
 
-$PYTHON -m app.main
+$PYTHON app/main.py
