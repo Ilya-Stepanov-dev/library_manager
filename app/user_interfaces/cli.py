@@ -110,7 +110,10 @@ class MainMenu(Menu):
 
 class AddMenu(Menu, ValidatorInputData):
 
-    def __init__(self, book_title: str=None, author: str=None, year: int=None) -> None:
+    def __init__(self, 
+                 book_title: str | None = None, 
+                 author: str | None = None, 
+                 year: int | None = None) -> None:
         super().__init__()
         self.book_title = book_title
         self.author =  author
@@ -173,9 +176,9 @@ class SuccessfulCompletion(Menu):
 
     def __init__(self, 
                  message: str='Success completion', 
-                 books: list[Book]=None, 
-                 last_state: Menu=None, 
-                 additional_info: str=None) -> None:
+                 books: list[Book] | None = None, 
+                 last_state: Menu | None = None, 
+                 additional_info: str | None = None) -> None:
         super().__init__()
         self.message = message
         self.books = books
@@ -199,7 +202,9 @@ class SuccessfulCompletion(Menu):
     
 class DeleteMenu(Menu, ValidatorInputData):
 
-    def __init__(self, book_title: str=None, book_id: int=None) -> None:
+    def __init__(self, 
+                 book_title: str | None = None, 
+                 book_id: int | None = None) -> None:
         super().__init__()
         self.book_id = book_id
         self.book_title = book_title
@@ -277,7 +282,9 @@ class SearchMenu(Menu):
             
 class ShowBook(Menu):
 
-    def __init__(self, books: list[Book]=[], last_state: Menu=MainMenu()) -> None:
+    def __init__(self, 
+                 books: list[Book]=[], 
+                 last_state: Menu=MainMenu()) -> None:
         super().__init__()
         self.books = books
         self.last_state = last_state
@@ -297,7 +304,9 @@ class ShowBook(Menu):
 
 class ChangeStatusMenu(Menu, ValidatorInputData):
 
-    def __init__(self, book_id: int=None, status: str=None) -> None:
+    def __init__(self, 
+                 book_id: int | None = None, 
+                 status: str | None = None) -> None:
         super().__init__()
         self.book_id = book_id
         self.status = status
